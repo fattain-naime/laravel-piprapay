@@ -1,0 +1,35 @@
+{
+    "name": "fattain-naime/laravel-piprapay",
+    "description": "A Laravel package for integrating the PipraPay payment gateway.",
+    "type": "laravel-package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fattain Naime",
+            "email": "iamnaime@builderhall.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^11.0|^12.0",
+        "illuminate/http": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "FattainNaime\\PipraPay\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "FattainNaime\\PipraPay\\PipraPayServiceProvider"
+            ],
+            "aliases": {
+                "PipraPay": "FattainNaime\\PipraPay\\Facades\\PipraPay"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
