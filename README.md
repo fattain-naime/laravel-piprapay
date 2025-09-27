@@ -46,7 +46,7 @@ public function createPayment()
         'redirect_url' => route('payment.success'),
         'cancel_url' => route('payment.cancel'),
         'webhook_url' => route('piprapay.webhook'), // The package handles this route
-        'return_type' => 'POST',
+        'return_type' => 'GET',
         'metadata' => [
             'order_id' => 'ORD-12345',
         ],
