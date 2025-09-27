@@ -18,9 +18,13 @@ php artisan vendor:publish --provider="FattainNaime\PipraPay\PipraPayServiceProv
 
 Finally, add your PipraPay credentials to your `.env` file:
 
-```dotenv
-PIPRAPAY_API_KEY="your-api-key-here"
-PIPRAPAY_SANDBOX_MODE=true
+```dotenv# Set to false to go live
+PIPRAPAY_SANDBOX_MODE=false 
+
+# The user's self-hosted PipraPay domain
+PIPRAPAY_BASE_URL="https://pay.their-own-domain.com" 
+
+PIPRAPAY_API_KEY="their-production-api-key"
 ```
 
 ## Usage
