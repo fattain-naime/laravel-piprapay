@@ -20,9 +20,11 @@ return [
     |--------------------------------------------------------------------------
     | API Base URLs
     |--------------------------------------------------------------------------
+    | The base URLs for the PipraPay API endpoints. The production URL
+    | must be set by the user in their .env file for self-hosted setups.
     */
-    'base_url' => 'https://pay.yourdomain.com', // For self-hosted production
-    'sandbox_base_url' => 'https://demo.piprapay.com',
+    'base_url' => env('PIPRAPAY_BASE_URL'), // <-- THIS LINE IS UPDATED
+    'sandbox_base_url' => 'https://sandbox.piprapay.com',
 
     /*
     |--------------------------------------------------------------------------
