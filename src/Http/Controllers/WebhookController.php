@@ -1,29 +1,41 @@
 <?php
 
-namespace FattainNaime\PipraPay\Http\Controllers;
+namespace Naime\PipraPay\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use FattainNaime\PipraPay\Events\PipraPayPaymentCompleted;
-use FattainNaime\PipraPay\Events\PipraPayWebhookReceived;
-use FattainNaime\PipraPay\Facades\PipraPay;
+use Naime\PipraPay\Exceptions\InvalidApiKeyException;
+use App\Models\Payment; // change this to your actual Payment model
 
-class WebhookController extends Controller
+class PipraPayWebhookController extends Controller
 {
     public function handle(Request $request)
     {
-        if (! PipraPay::validateWebhook($request)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        $headers = $request->headers->all();
+        $receivedApiKey = $headers['mh-piprapay-api-key'][0] ?? 
+                          $headers['Mh-Piprapay-Api-Key'][0] ?? 
+                          $request->server('HTTP_MH_PIPRAPAY_API_KEY');
+
+        if ($receivedApiKey !== config('piprapay.api_key')) {
+            throw new InvalidApiKeyException('Unauthorized request. API Key mismatch.');
         }
 
-        $payload = $request->all();
+        $data = $request->all();
 
-        PipraPayWebhookReceived::dispatch($payload);
-
-        if (isset($payload['status']) && $payload['status'] === 'completed') {
-            PipraPayPaymentCompleted::dispatch($payload);
+        // Idempotency check
+        if (Payment::where('pp_id', $data['pp_id'])->exists()) {
+            return response()->json(['status' => true, 'message' => 'Already processed']);
         }
 
-        return response()->json(['message' => 'Webhook handled']);
+        // Save or process payment
+        Payment::create([
+            'pp_id' => $data['pp_id'],
+            'amount' => $data['amount'],
+            'currency' => $data['currency'],
+            'status' => $data['status'],
+            'metadata' => json_encode($data['metadata'] ?? []),
+        ]);
+
+        return response()->json(['status' => true, 'message' => 'Webhook received']);
     }
 }
