@@ -24,7 +24,7 @@ PIPRAPAY_SANDBOX_MODE=false
 # The user's self-hosted PipraPay domain
 PIPRAPAY_BASE_URL="https://pay.example.com" 
 
-PIPRAPAY_API_KEY="their-production-api-key"
+PIPRAPAY_API_KEY="production-api-key"
 ```
 
 ## Usage
