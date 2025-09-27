@@ -22,7 +22,7 @@ Finally, add your PipraPay credentials to your `.env` file:
 PIPRAPAY_SANDBOX_MODE=false 
 
 # The user's self-hosted PipraPay domain
-PIPRAPAY_BASE_URL="https://pay.their-own-domain.com" 
+PIPRAPAY_BASE_URL="https://pay.example.com" 
 
 PIPRAPAY_API_KEY="their-production-api-key"
 ```
